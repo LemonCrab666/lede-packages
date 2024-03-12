@@ -22,7 +22,7 @@ jobs:
               uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
               with:
                   target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  upstream_sync_repo: coolsnowwolf/packages
+                  upstream_sync_repo: coolsnowwolf/luci
                   upstream_sync_branch: master
                   target_sync_branch: master
                   test_mode: false
@@ -32,3 +32,10 @@ jobs:
               run: |
                   echo "[Error] Due to a change in the workflow file of the upstream repository, GitHub has automatically suspended the scheduled automatic update. You need to manually sync your fork."
                   exit 1
+
+            - name: Delete workflow runs
+              uses: GitRML/delete-workflow-runs@main
+              with:
+                retain_days: 1
+                keep_minimum_runs: 1
+                token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
